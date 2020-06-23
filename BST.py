@@ -94,15 +94,15 @@ class BSTNode:
 
     def findMin(self):
         # First element with no left is the smallest element in the BST.
-        if not self.left:
-            return self.val
-        return self.left.findMin()
+        if self.left:
+            return self.left.findMin()
+        return self.val
 
     def findMax(self):
         # First element with no right is the largest element in the BST.
-        if not self.right:
-            return self.val
-        return self.right.findMax()
+        if self.right:
+            return self.right.findMax()
+        return self.val
 
     def calculateSum(self):
         # Traversed and added every element and finally returned it.
