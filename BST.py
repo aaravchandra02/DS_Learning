@@ -1,5 +1,5 @@
 """
-My implementation of a Binary Search Tree with its 3 different types of traversals. 
+My implementation of a Binary Search Tree with its 3 different types of traversals.
 """
 # To find System properties
 import sys
@@ -120,6 +120,21 @@ class BSTNode:
         return self.data + left_sum + right_sum
         """
 
+    def searchTree(self, ele):
+
+        if (self.val == ele):
+            return "Present in the Tree\n"
+        if (ele < self.val):
+            if(self.left):  # as tree node might not have a left, meaning element not present
+                return self.left.searchTree(ele)
+            else:
+                return "Not Present in the Tree\n"
+        if (ele > self.val):
+            if(self.right):  # as tree node might not have a right, meaning element not present
+                return self.right.searchTree(ele)
+            else:
+                return "Not Present in the Tree\n"
+
 
 def buildTree(nums):  # Helper Fn to build a BST from a list of numbers
     root = BSTNode(nums[0])
@@ -136,4 +151,6 @@ if __name__ == '__main__':  # main() Fn
     print(f"\n Post-order Traversal Results: {r.postorder_recursive()}")
     print(f"\n Minimum Element in the Tree: {r.findMin()}")
     print(f"\n Maximum Element in the Tree: {r.findMax()}")
-    print(f"\n Summation of all elements: {r.calculateSum()}\n")
+    print(f"\n Summation of all elements: {r.calculateSum()}")
+    ns = int(input("\n Enter the element that you want to search in the tree: "))
+    print(f"\n Search Result for element {ns} : {r.searchTree(ns)}")
