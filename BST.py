@@ -123,17 +123,42 @@ class BSTNode:
     def searchTree(self, ele):
 
         if (self.val == ele):
-            return "Present in the Tree\n"
+            return True
         if (ele < self.val):
             if(self.left):  # as tree node might not have a left, meaning element not present
                 return self.left.searchTree(ele)
             else:
-                return "Not Present in the Tree\n"
+                return False
         if (ele > self.val):
             if(self.right):  # as tree node might not have a right, meaning element not present
                 return self.right.searchTree(ele)
             else:
-                return "Not Present in the Tree\n"
+                return False
+
+    # Either put min node from left subtree or max node from right subtree.
+    def deleteNode(self, ele):
+
+        # Traversing the tree to get the node that needs to be deleted
+
+        if ele < self.val:  # If element is < current
+            if self.left:  # If left subtree is present, See it.
+                self.left = self.left.deleteNode(ele)  # Copying
+        elif ele > self.val:  # If element is > current
+            if self.right:  # If right subtree is present, See it.
+                self.right = self.right.deleteNode(ele)
+        else:  # When ELement is found
+            if self.left is None and self.right is None:  # if its a leaf node
+                return None
+            elif (self.left):  # If its only has left subtree
+                return self.left  # copying it by skipping the choosen element
+            elif (self.right):  # If its only has right subtree
+                return self.right
+            else:  # When its having both subtrees
+                min_val = self.left.find_max()  # could also be min of its right tree
+                self.data = min_val  # Changing the current nodes value
+                # deleting the OG changed element
+                self.right = self.right.deleteNode(min_val)
+        return self  # Returning the main tree with deleted node.
 
 
 def buildTree(nums):  # Helper Fn to build a BST from a list of numbers
@@ -152,5 +177,10 @@ if __name__ == '__main__':  # main() Fn
     print(f"\n Minimum Element in the Tree: {r.findMin()}")
     print(f"\n Maximum Element in the Tree: {r.findMax()}")
     print(f"\n Summation of all elements: {r.calculateSum()}")
-    ns = int(input("\n Enter the element that you want to search in the tree: "))
+    # ns = int(input("\n Enter the element that you want to search in the tree: "))
+    ns = 1
     print(f"\n Search Result for element {ns} : {r.searchTree(ns)}")
+    # nd = int(input("\n Enter the element that you want to delete in the tree: "))
+    nd = 1
+    w = (r.deleteNode(nd))
+    print(f"\n In-order Traversal Results: {w.inorder_recursive()}")
